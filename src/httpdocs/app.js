@@ -1,4 +1,5 @@
 var customers = [];
+var selectedCustomer = "";
 
 document
     .getElementById('import-button')
@@ -12,11 +13,60 @@ document
             customers = JSON.parse(localStorage.getItem('customers'));
 
             if (customers.length > 0) {
-                populateDropdown(customers);
+                populateDatalist(customers);
             }
         };
         fr.readAsText(this.files[0]);
     });
+
+function getSelectedCustomer(value) {
+    return customers.find(function (customer) {
+        return customer.companyName === value;
+    });
+}
+
+document
+    .getElementById('customer-select')
+    .addEventListener('input', function () {
+        selectedCustomer = getSelectedCustomer(this.value);
+    });
+
+// Define the URLLink custom element extending from HTMLButtonElement
+class URLLink extends HTMLButtonElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.style.cursor = 'pointer';
+
+        // Retrieve the initial URL attribute
+        var url = this.getAttribute('url');
+
+        // Update the URL whenever a different customer is selected
+        var updateUrl = () => {
+            selectedCustomer = getSelectedCustomer(document.getElementById('customer-select').value);
+            if (selectedCustomer) {
+                var updatedUrl = url.replace(/<microsoftId>/g, encodeURIComponent(selectedCustomer.microsoftId));
+                updatedUrl = updatedUrl.replace(/<primaryDomainName>/g, encodeURIComponent(selectedCustomer.primaryDomainName));
+                this.setAttribute('url', updatedUrl);
+            }
+        };
+
+        // Handle the click event
+        this.addEventListener('click', function () {
+            updateUrl();
+            window.open(this.getAttribute('url'), '_blank');
+        });
+
+        // Handle changes in the customer selection
+        document.getElementById('customer-select').addEventListener('input', updateUrl);
+    }
+}
+
+// Define the custom element
+customElements.define('url-link', URLLink, { extends: 'button' });
+
 
 function convertCsvToJson(csvData) {
     var lines = csvData.split('\n');
@@ -44,111 +94,21 @@ function convertToCamelCase(str) {
         .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
 
-function populateDropdown(customers) {
-    // Get the select element
-    var select = document.getElementById('customer-select');
+function populateDatalist() {
+    var datalist = document.getElementById('customer-list');
 
-    // Clear existing options
-    select.innerHTML = '';
+    datalist.innerHTML = '';
 
-    // Add default placeholder option
-    var defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
-    defaultOption.textContent = 'Select a customer';
-    select.appendChild(defaultOption);
-
-    // Populate the dropdown with customer names and data attributes
     customers.forEach(function (customer) {
         var option = document.createElement('option');
-        option.text = customer.companyName;
-        option.value = customer.microsoftId || customer.primaryDomainName;
-        option.dataset.primaryDomainName = customer.primaryDomainName;
-        option.dataset.microsoftId = customer.microsoftId;
-        select.add(option);
-    });
+        option.value = customer.companyName;
 
-    // Attach event listener for search input
-    var searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', function () {
-        var searchValue = this.value.trim().toLowerCase();
-        filterDropdown(select, searchValue);
-        openDropdown();
+        datalist.appendChild(option);
     });
 }
 
-function filterDropdown(select, searchValue) {
-    var options = select.options;
-    for (var i = 0; i < options.length; i++) {
-        var option = options[i];
-        var text = option.text.toLowerCase();
-        if (text.indexOf(searchValue) > -1) {
-            option.style.display = '';
-        } else {
-            option.style.display = 'none';
-        }
-    }
-}
-
-function openUrlButton(url) {
-    var selectedOption = select.options[select.selectedIndex];
-    var selectedMicrosoftId = selectedOption.dataset.microsoftId;
-    var selectedPrimaryDomainName = selectedOption.dataset.primaryDomainName;
-    url = url.replace('<microsoftId>', encodeURIComponent(selectedMicrosoftId));
-    url = url.replace('<primaryDomainName>', encodeURIComponent(selectedPrimaryDomainName));
-    window.open(url, '_blank');
-}
-
-// Get the select element
-var select = document.getElementById('customer-select');
-
-// Define the URLLink custom element extending from HTMLButtonElement
-class URLLink extends HTMLButtonElement {
-    constructor() {
-        super();
-    }
-
-    connectedCallback() {
-        var url = this.getAttribute('url');
-        this.addEventListener('click', function () {
-            openUrlButton(url);
-        });
-        this.style.cursor = 'pointer';
-    }
-}
-// Define the custom element
-customElements.define('url-link', URLLink, { extends: 'button' });
-
-// Open the dropdown
-function openDropdown() {
-    select.parentNode.classList.add('open');
-    select.click(); // Trigger click event on the select element
-}
-
-// Close the dropdown
-function closeDropdown() {
-    select.parentNode.classList.remove('open');
-}
-
-// Add event listener for customer select
-select.addEventListener('change', function () {
-    var selectedOption = this.options[this.selectedIndex];
-    if (selectedOption.value !== '') {
-        var urlButtons = document.querySelectorAll('button[is="url-link"]');
-        urlButtons.forEach(function (button) {
-            button.hidden = false;
-        });
-    } else {
-        var urlButtons = document.querySelectorAll('button[is="url-link"]');
-        urlButtons.forEach(function (button) {
-            button.hidden = true;
-        });
-    }
-});
-
-// Check if customers exist and populate dropdown on startup
+// Check if customers exist and populate datalist on startup
 customers = JSON.parse(localStorage.getItem('customers'));
 if (customers && customers.length > 0) {
-    populateDropdown(customers);
+    populateDatalist();
 }

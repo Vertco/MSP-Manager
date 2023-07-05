@@ -1,6 +1,6 @@
 :root {
     /* <--- Color variables ---> */
-    --main-bg-color: #1c232c;
+    --main-bg-color: #252526;
     --widget-bg-color: #fff;
     --widget-secondary-color: #9c9c9c;
     --widget-accent-color: #e4e4e4;
@@ -9,6 +9,14 @@
     --positive-color: #4CAF50;
     --negative-color: #b23c3c;
     --magic-color: #205a6e;
+}
+
+.acrylic {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-blend-mode: exclusion;
+    background: #2e2e2e99;
+    filter: drop-shadow(5px 5px 0.75rem #000000aa);
 }
 
 /* <--- Widgets ---> */

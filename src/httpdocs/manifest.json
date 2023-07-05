@@ -1,6 +1,6 @@
 {
-    "name": "CSP Launcher",
-    "short_name": "CSPLauncher",
+    "name": "MSP Manager",
+    "short_name": "MSP Manager",
     "description": "A web-based companion app to more easily manage partners in Microsoft PartnerCenter.",
     "start_url": "/",
     "display": "standalone",
@@ -8,5 +8,11 @@
     "theme_color": "#0f1b28ff",
     "display_override": [
         "window-controls-overlay"
-    ]
+    ],
+    "icons": {
+      "16": "icons/ManageMSP_Favicon_16.png",
+      "32": "icons/ManageMSP_Favicon_32.png",
+      "48": "icons/ManageMSP_Favicon_48.png",
+      "128": "icons/ManageMSP_Favicon_128.png"
+    }
 }
