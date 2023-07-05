@@ -1,0 +1,70 @@
+:root {
+    /* <--- Font defaults ---> */
+    font-family: Tahoma, sans-serif;
+    color: var(--text-color);
+}
+
+/* <--- Text size defaults ---> */
+:root {
+    font-size: 3.5mm;
+}
+
+a {
+    font-size: 3mm;
+}
+
+h1 {
+    font-size: 6mm;
+}
+
+h2 {
+    font-size: 4mm;
+}
+
+/* <--- App defaults ---> */
+html {
+    background-color: var(--main-bg-color);
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+ul {
+    line-height: 3.2mm;
+}
+
+li {
+    display: inline;
+}
+
+.right-align {
+    text-align: right;
+    float: right;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:active .clickable:hover {
+    background-color: var(--active-color);
+    border-radius: 1em;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown select {
+    width: 100%;
+    height: 30px;
+    appearance: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px;
+}

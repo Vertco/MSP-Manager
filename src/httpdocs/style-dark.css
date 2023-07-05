@@ -1,0 +1,14 @@
+:root {
+    /* <--- Color variables ---> */
+    --main-bg-color: #1c232c;
+    --widget-bg-color: #fff;
+    --widget-secondary-color: #9c9c9c;
+    --widget-accent-color: #e4e4e4;
+    --text-color: #fff;
+    --active-color: #00000055;
+    --positive-color: #4CAF50;
+    --negative-color: #b23c3c;
+    --magic-color: #205a6e;
+}
+
+/* <--- Widgets ---> */

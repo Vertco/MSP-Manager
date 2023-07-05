@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="manifest" href="manifest.json" />
+  <!--   <link rel="icon" type="image/x-icon" href="media/logo.ico"> -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-dark.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="style-light.css" media="(prefers-color-scheme: light)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CSP Launcher</title>
+</head>
+
+<body>
+  <input type="file" accept=".csv" id="import-button" />
+  <label for="customer-select">Select a customer:</label>
+  <input type="text" id="search-input" placeholder="Search">
+  <select id="customer-select">
+    <option value="" disabled selected>Select a customer</option>
+  </select><br /><br />
+  <button is="url-link"
+    url="https://admin.microsoft.com/Partner/BeginClientSession.aspx?CTID=<microsoftId>&CSDEST=o365admincenter"
+    hidden>Admincenter</button><br />
+  <button is="url-link" url="https://aad.portal.azure.com/<primaryDomainName>" hidden>Entra</button><br />
+  <button is="url-link"
+    url="https://admin.exchange.microsoft.com/?rfr=Admin_o365&exsvurl=1&delegatedOrg=<primaryDomainName>&mkt=en-US&Realm=managemsp.nl"
+    hidden>Exchange</button><br />
+  <button is="url-link" url="https://compliance.microsoft.com/?tid=<microsoftId>" hidden>Compliance</button><br />
+  <button is="url-link" url="https://security.microsoft.com/?tid=<microsoftId>" hidden>Defender</button><br />
+  <button is="url-link"
+    url="https://admin.microsoft.com/Partner/beginclientsession.aspx?CTID=<microsoftId>&CSDEST=SharePoint"
+    hidden>Sharepoint</button><br />
+  <button is="url-link" url="https://admin.teams.microsoft.com/?delegatedOrg=<primaryDomainName>"
+    hidden>Teams</button><br />
+  <button is="url-link" url="https://endpoint.microsoft.com/<primaryDomainName>" hidden>Intune</button><br />
+</body>
+
+<!--Embedding the needed Javascript files-->
+<script src="app.js"></script>
+
+</html>

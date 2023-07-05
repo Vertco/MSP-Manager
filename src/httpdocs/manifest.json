@@ -1,0 +1,12 @@
+{
+    "name": "CSP Launcher",
+    "short_name": "CSPLauncher",
+    "description": "A web-based companion app to more easily manage partners in Microsoft PartnerCenter.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#1c232cff",
+    "theme_color": "#0f1b28ff",
+    "display_override": [
+        "window-controls-overlay"
+    ]
+}
