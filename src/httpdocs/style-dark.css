@@ -1,14 +1,17 @@
 :root {
     /* <--- Color variables ---> */
     --main-bg-color: #252526;
-    --widget-bg-color: #fff;
-    --widget-secondary-color: #9c9c9c;
-    --widget-accent-color: #e4e4e4;
+    --accent-color: #115ea3;
     --text-color: #fff;
-    --active-color: #00000055;
+    --button-color: #383838;
+    --input-color: #141414;
     --positive-color: #4CAF50;
     --negative-color: #b23c3c;
-    --magic-color: #205a6e;
+}
+
+body {
+    background: #252526;
+    background: radial-gradient(at center, #252526, #12121E);
 }
 
 .acrylic {
@@ -18,5 +21,3 @@
     background: #2e2e2e99;
     filter: drop-shadow(5px 5px 0.75rem #000000aa);
 }
-
-/* <--- Widgets ---> */

@@ -14,5 +14,15 @@
       "32": "icons/ManageMSP_Favicon_32.png",
       "48": "icons/ManageMSP_Favicon_48.png",
       "128": "icons/ManageMSP_Favicon_128.png"
-    }
+    },
+    "file_handlers": [
+        {
+            "action": "/",
+            "accept": {
+                "text/json": [
+                    ".mspcsv"
+                ]
+            }
+        }
+    ]
 }

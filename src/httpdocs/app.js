@@ -31,42 +31,12 @@ document
         selectedCustomer = getSelectedCustomer(this.value);
     });
 
-// Define the URLLink custom element extending from HTMLButtonElement
-class URLLink extends HTMLButtonElement {
-    constructor() {
-        super();
-    }
-
-    connectedCallback() {
-        this.style.cursor = 'pointer';
-
-        // Retrieve the initial URL attribute
-        var url = this.getAttribute('url');
-
-        // Update the URL whenever a different customer is selected
-        var updateUrl = () => {
-            selectedCustomer = getSelectedCustomer(document.getElementById('customer-select').value);
-            if (selectedCustomer) {
-                var updatedUrl = url.replace(/<microsoftId>/g, encodeURIComponent(selectedCustomer.microsoftId));
-                updatedUrl = updatedUrl.replace(/<primaryDomainName>/g, encodeURIComponent(selectedCustomer.primaryDomainName));
-                this.setAttribute('url', updatedUrl);
-            }
-        };
-
-        // Handle the click event
-        this.addEventListener('click', function () {
-            updateUrl();
-            window.open(this.getAttribute('url'), '_blank');
-        });
-
-        // Handle changes in the customer selection
-        document.getElementById('customer-select').addEventListener('input', updateUrl);
-    }
-}
-
-// Define the custom element
-customElements.define('url-link', URLLink, { extends: 'button' });
-
+document
+    .getElementById('clear-button')
+    .addEventListener('click', function () {
+        document.getElementById('customer-select').value = "";
+        
+    });
 
 function convertCsvToJson(csvData) {
     var lines = csvData.split('\n');
@@ -106,6 +76,53 @@ function populateDatalist() {
         datalist.appendChild(option);
     });
 }
+
+// Define the URLLink custom element extending from HTMLButtonElement
+class URLLink extends HTMLButtonElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        this.style.cursor = 'pointer';
+
+        // Retrieve the initial URL attribute
+        var url = this.getAttribute('url');
+        var selectedCustomer = null;
+
+        // Update the URL whenever a different customer is selected
+        var updateUrl = () => {
+            var previousCustomer = selectedCustomer;
+            selectedCustomer = getSelectedCustomer(document.getElementById('customer-select').value);
+
+            if (selectedCustomer) {
+                var updatedUrl = url.replace(/<microsoftId>/g, encodeURIComponent(selectedCustomer.microsoftId));
+                updatedUrl = updatedUrl.replace(/<primaryDomainName>/g, encodeURIComponent(selectedCustomer.primaryDomainName));
+                this.setAttribute('url', updatedUrl);
+            }
+
+            // Enable the element when selectedCustomer changes from empty to not empty
+            if (!previousCustomer && selectedCustomer) {
+                this.disabled = false;
+            }
+        };
+
+        // Handle the click event
+        this.addEventListener('click', function () {
+            updateUrl();
+            window.open(this.getAttribute('url'), '_blank');
+        });
+
+        // Handle changes in the customer selection
+        document.getElementById('customer-select').addEventListener('input', updateUrl);
+
+        // Disable the element initially
+        this.disabled = true;
+    }
+}
+
+// Define the custom element
+customElements.define('url-link', URLLink, { extends: 'button' });
 
 // Check if customers exist and populate datalist on startup
 customers = JSON.parse(localStorage.getItem('customers'));
