@@ -9,12 +9,28 @@
     "display_override": [
         "window-controls-overlay"
     ],
-    "icons": {
-      "16": "icons/ManageMSP_Favicon_16.png",
-      "32": "icons/ManageMSP_Favicon_32.png",
-      "48": "icons/ManageMSP_Favicon_48.png",
-      "128": "icons/ManageMSP_Favicon_128.png"
-    },
+    "icons": [
+        {
+            "src": "icons/ManageMSP_Favicon_16.png",
+            "sizes": "16x16",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/ManageMSP_Favicon_32.png",
+            "sizes": "32x32",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/ManageMSP_Favicon_48.png",
+            "sizes": "48x48",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/ManageMSP_Favicon_128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        }
+    ],
     "file_handlers": [
         {
             "action": "/",
