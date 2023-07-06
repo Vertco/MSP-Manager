@@ -11,27 +11,27 @@
     ],
     "icons": [
         {
-            "src": "icons/icon_16.png",
+            "src": "media/icon_16.png",
             "sizes": "16x16",
             "type": "image/png"
         },
         {
-            "src": "icons/icon_32.png",
+            "src": "media/icon_32.png",
             "sizes": "32x32",
             "type": "image/png"
         },
         {
-            "src": "icons/icon_48.png",
+            "src": "media/icon_48.png",
             "sizes": "48x48",
             "type": "image/png"
         },
         {
-            "src": "icons/icon_128.png",
+            "src": "media/icon_128.png",
             "sizes": "128x128",
             "type": "image/png"
         },
         {
-            "src": "icons/icon_512.svg",
+            "src": "media/icon_512.svg",
             "sizes": "512x512",
             "purpose": "any"
         }
