@@ -9,39 +9,32 @@ if (customers && customers.length > 0) {
 
 if ("launchQueue" in window) {
     window.launchQueue.setConsumer((launchParams) => {
-        if (launchParams.files && launchParams.files.length > 0) {
-            var file = launchParams.files[0];
-            if (file.name.endsWith(".mspcsv")) {
-                var fr = new FileReader();
-                fr.onload = function () {
-                    var csvData = this.result;
-                    var jsonObj = convertCsvToJson(csvData);
+        if (launchParams.files && launchParams.files.length) {
+            var fr = new FileReader();
+            fr.onload = function () {
+                var csvData = this.result;
+                var jsonObj = convertCsvToJson(csvData);
 
-                    jsonObj.sort(function (a, b) {
-                        var nameA = a.companyName.toUpperCase();
-                        var nameB = b.companyName.toUpperCase();
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-                        return 0;
-                    });
-
-                    // Assuming you have a function called `addToLaunchQueue` to add items to the launch queue
-                    for (var i = 0; i < jsonObj.length; i++) {
-                        addToLaunchQueue(jsonObj[i]);
+                jsonObj.sort(function (a, b) {
+                    var nameA = a.companyName.toUpperCase();
+                    var nameB = b.companyName.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
                     }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
 
-                    // Optional: Update any UI elements to reflect the updated launch queue
+                localStorage.setItem('customers', JSON.stringify(jsonObj));
+                customers = JSON.parse(localStorage.getItem('customers'));
 
-                    localStorage.setItem("customers", JSON.stringify(jsonObj));
-                };
-                fr.readAsText(file);
-            } else {
-                console.log("Invalid file format. Please select a .mspcsv file.");
-            }
+                if (customers.length > 0) {
+                    populateDatalist(customers);
+                }
+            };
+            fr.readAsText(launchParams.files[0]);
         }
     });
 }
