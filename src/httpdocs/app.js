@@ -37,10 +37,10 @@ if ("launchQueue" in window) {
                 customers = JSON.parse(localStorage.getItem('customers'));
 
                 if (customers.length > 0) {
-                    populateDatalist(customers); // Make sure to define populateDatalist
+                    populateDatalist(customers);
                 }
             };
-            fr.readAsText(launchParams.files[0]);
+            fr.readAsText(launchParams.files[0].handle);
             handleFiles(launchParams.files);
         }
     });
