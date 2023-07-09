@@ -7,6 +7,13 @@ if (customers && customers.length > 0) {
     populateDatalist(customers);
 }
 
+async function handleFiles(files) {
+    for (const file of files) {
+        const blob = await file.getFile();
+        blob.handle = file;
+    }
+}
+
 if ("launchQueue" in window) {
     window.launchQueue.setConsumer((launchParams) => {
         if (launchParams.files && launchParams.files.length) {
@@ -34,7 +41,8 @@ if ("launchQueue" in window) {
                     populateDatalist(customers);
                 }
             };
-            fr.readAsText(launchParams.files[0]);
+            blob = handleFiles(launchParams.files[0].getFile());
+            fr.readAsText(blob);
         }
     });
 }
