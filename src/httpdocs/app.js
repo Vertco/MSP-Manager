@@ -9,8 +9,7 @@ if (customers && customers.length > 0) {
 
 async function handleFiles(files) {
     for (const file of files) {
-        const blob = await file.getFile();
-        blob.handle = file;
+        file.handle = file;
     }
 }
 
@@ -20,7 +19,7 @@ if ("launchQueue" in window) {
             var fr = new FileReader();
             fr.onload = function () {
                 var csvData = this.result;
-                var jsonObj = convertCsvToJson(csvData);
+                var jsonObj = convertCsvToJson(csvData); // Make sure to define convertCsvToJson
 
                 jsonObj.sort(function (a, b) {
                     var nameA = a.companyName.toUpperCase();
@@ -38,11 +37,11 @@ if ("launchQueue" in window) {
                 customers = JSON.parse(localStorage.getItem('customers'));
 
                 if (customers.length > 0) {
-                    populateDatalist(customers);
+                    populateDatalist(customers); // Make sure to define populateDatalist
                 }
             };
-            blob = handleFiles(launchParams.files[0].getFile());
-            fr.readAsText(blob);
+            fr.readAsText(launchParams.files[0]);
+            handleFiles(launchParams.files);
         }
     });
 }
