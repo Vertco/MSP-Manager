@@ -1,6 +1,51 @@
 var customers = [];
 var selectedCustomer = "";
 
+// Check if customers exist and populate datalist on startup
+customers = JSON.parse(localStorage.getItem('customers'));
+if (customers && customers.length > 0) {
+    populateDatalist(customers);
+}
+
+if ("launchQueue" in window) {
+    window.launchQueue.setConsumer((launchParams) => {
+        if (launchParams.files && launchParams.files.length > 0) {
+            var file = launchParams.files[0];
+            if (file.name.endsWith(".mspcsv")) {
+                var fr = new FileReader();
+                fr.onload = function () {
+                    var csvData = this.result;
+                    var jsonObj = convertCsvToJson(csvData);
+
+                    jsonObj.sort(function (a, b) {
+                        var nameA = a.companyName.toUpperCase();
+                        var nameB = b.companyName.toUpperCase();
+                        if (nameA < nameB) {
+                            return -1;
+                        }
+                        if (nameA > nameB) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+
+                    // Assuming you have a function called `addToLaunchQueue` to add items to the launch queue
+                    for (var i = 0; i < jsonObj.length; i++) {
+                        addToLaunchQueue(jsonObj[i]);
+                    }
+
+                    // Optional: Update any UI elements to reflect the updated launch queue
+
+                    localStorage.setItem("customers", JSON.stringify(jsonObj));
+                };
+                fr.readAsText(file);
+            } else {
+                console.log("Invalid file format. Please select a .mspcsv file.");
+            }
+        }
+    });
+}
+
 document
     .getElementById('import-button')
     .addEventListener('change', function () {
@@ -8,6 +53,18 @@ document
         fr.onload = function () {
             var csvData = this.result;
             var jsonObj = convertCsvToJson(csvData);
+
+            jsonObj.sort(function (a, b) {
+                var nameA = a.companyName.toUpperCase();
+                var nameB = b.companyName.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
 
             localStorage.setItem('customers', JSON.stringify(jsonObj));
             customers = JSON.parse(localStorage.getItem('customers'));
@@ -18,6 +75,7 @@ document
         };
         fr.readAsText(this.files[0]);
     });
+
 
 function getSelectedCustomer(value) {
     return customers.find(function (customer) {
@@ -35,7 +93,7 @@ document
     .getElementById('clear-button')
     .addEventListener('click', function () {
         document.getElementById('customer-select').value = "";
-        
+
     });
 
 function convertCsvToJson(csvData) {
@@ -123,9 +181,3 @@ class URLLink extends HTMLButtonElement {
 
 // Define the custom element
 customElements.define('url-link', URLLink, { extends: 'button' });
-
-// Check if customers exist and populate datalist on startup
-customers = JSON.parse(localStorage.getItem('customers'));
-if (customers && customers.length > 0) {
-    populateDatalist();
-}
