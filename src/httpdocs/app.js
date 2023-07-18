@@ -71,7 +71,7 @@ function handleFileOpen(blob) {
 
     reader.onload = function (e) {
         const csvData = e.target.result;
-        const jsonData = csvToJson(csvData);
+        const jsonData = convertCsvToJson(csvData);
 
         jsonData.sort(function (a, b) {
             var nameA = a.companyName.toUpperCase();
@@ -114,7 +114,7 @@ if ("launchQueue" in window) {
             const fr = new FileReader();
             fr.onload = function () {
                 const csvData = this.result;
-                const jsonData = csvToJson(csvData);
+                const jsonData = convertCsvToJson(csvData);
 
                 jsonData.sort(function (a, b) {
                     var nameA = a.companyName.toUpperCase();
