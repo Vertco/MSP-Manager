@@ -7,76 +7,6 @@ if (customers && customers.length > 0) {
     populateDatalist(customers);
 }
 
-async function handleFiles(files) {
-    for (const file of files) {
-        file.handle = file;
-    }
-}
-
-if ("launchQueue" in window) {
-    window.launchQueue.setConsumer((launchParams) => {
-        if (launchParams.files && launchParams.files.length) {
-            var fr = new FileReader();
-            fr.onload = function () {
-                var csvData = this.result;
-                var jsonObj = convertCsvToJson(csvData); // Make sure to define convertCsvToJson
-
-                jsonObj.sort(function (a, b) {
-                    var nameA = a.companyName.toUpperCase();
-                    var nameB = b.companyName.toUpperCase();
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-                    return 0;
-                });
-
-                localStorage.setItem('customers', JSON.stringify(jsonObj));
-                customers = JSON.parse(localStorage.getItem('customers'));
-
-                if (customers.length > 0) {
-                    populateDatalist(customers);
-                }
-            };
-            fr.readAsText(launchParams.files[0].handle);
-            handleFiles(launchParams.files);
-        }
-    });
-}
-
-document
-    .getElementById('import-button')
-    .addEventListener('change', function () {
-        var fr = new FileReader();
-        fr.onload = function () {
-            var csvData = this.result;
-            var jsonObj = convertCsvToJson(csvData);
-
-            jsonObj.sort(function (a, b) {
-                var nameA = a.companyName.toUpperCase();
-                var nameB = b.companyName.toUpperCase();
-                if (nameA < nameB) {
-                    return -1;
-                }
-                if (nameA > nameB) {
-                    return 1;
-                }
-                return 0;
-            });
-
-            localStorage.setItem('customers', JSON.stringify(jsonObj));
-            customers = JSON.parse(localStorage.getItem('customers'));
-
-            if (customers.length > 0) {
-                populateDatalist(customers);
-            }
-        };
-        fr.readAsText(this.files[0]);
-    });
-
-
 function getSelectedCustomer(value) {
     return customers.find(function (customer) {
         return customer.companyName === value;
@@ -133,6 +63,79 @@ function populateDatalist() {
 
         datalist.appendChild(option);
     });
+}
+
+// Function to handle the file opening
+function handleFileOpen(file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+        const csvData = e.target.result;
+        const jsonData = csvToJson(csvData);
+
+        jsonData.sort(function (a, b) {
+            var nameA = a.companyName.toUpperCase();
+            var nameB = b.companyName.toUpperCase();
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+
+        localStorage.setItem("customers", JSON.stringify(jsonData));
+        const customers = JSON.parse(localStorage.getItem("customers"));
+
+        if (customers.length > 0) {
+            populateDatalist(customers);
+        }
+    };
+
+    reader.readAsText(file);
+}
+
+// Check if the File Handler API is supported
+if ("launchQueue" in window) {
+    // Handle the file when the PWA is launched with a file
+    window.launchQueue.setConsumer((launchParams) => {
+        if (launchParams.files.length > 0) {
+            const file = launchParams.files[0];
+            handleFileOpen(file);
+        }
+    });
+} else {
+    // Fallback for browsers without File Handler API
+    document
+        .getElementById("import-button")
+        .addEventListener("change", function () {
+            const fr = new FileReader();
+            fr.onload = function () {
+                const csvData = this.result;
+                const jsonData = csvToJson(csvData);
+
+                jsonData.sort(function (a, b) {
+                    var nameA = a.companyName.toUpperCase();
+                    var nameB = b.companyName.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                localStorage.setItem("customers", JSON.stringify(jsonData));
+                const customers = JSON.parse(localStorage.getItem("customers"));
+
+                if (customers.length > 0) {
+                    populateDatalist(customers);
+                }
+            };
+            fr.readAsText(this.files[0]);
+        });
 }
 
 // Define the URLLink custom element extending from HTMLButtonElement
