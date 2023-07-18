@@ -99,10 +99,10 @@ function handleFileOpen(file) {
 // Check if the File Handler API is supported
 if ("launchQueue" in window) {
     // Handle the file when the PWA is launched with a file
-    window.launchQueue.setConsumer((launchParams) => {
+    window.launchQueue.setConsumer(async (launchParams) => {
         if (launchParams.files.length > 0) {
             const file = launchParams.files[0];
-            handleFileOpen(file);
+            await handleFileOpen(file);
         }
     });
 } else {
