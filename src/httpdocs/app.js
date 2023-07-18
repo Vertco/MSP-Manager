@@ -109,14 +109,14 @@ if ("launchQueue" in window) {
 } else {
     // Fallback for browsers without File Handler API
     document
-        .getElementById("import-button")
-        .addEventListener("change", function () {
-            const fr = new FileReader();
+        .getElementById('import-button')
+        .addEventListener('change', function () {
+            var fr = new FileReader();
             fr.onload = function () {
-                const csvData = this.result;
-                const jsonData = convertCsvToJson(csvData);
+                var csvData = this.result;
+                var jsonObj = convertCsvToJson(csvData);
 
-                jsonData.sort(function (a, b) {
+                jsonObj.sort(function (a, b) {
                     var nameA = a.companyName.toUpperCase();
                     var nameB = b.companyName.toUpperCase();
                     if (nameA < nameB) {
@@ -128,8 +128,8 @@ if ("launchQueue" in window) {
                     return 0;
                 });
 
-                localStorage.setItem("customers", JSON.stringify(jsonData));
-                const customers = JSON.parse(localStorage.getItem("customers"));
+                localStorage.setItem('customers', JSON.stringify(jsonObj));
+                customers = JSON.parse(localStorage.getItem('customers'));
 
                 if (customers.length > 0) {
                     populateDatalist(customers);
