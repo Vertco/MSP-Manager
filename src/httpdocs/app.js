@@ -66,7 +66,7 @@ function populateDatalist() {
 }
 
 // Function to handle the file opening
-function handleFileOpen(file) {
+function handleFileOpen(blob) {
     const reader = new FileReader();
 
     reader.onload = function (e) {
@@ -93,7 +93,7 @@ function handleFileOpen(file) {
         }
     };
 
-    reader.readAsText(file);
+    reader.readAsText(blob);
 }
 
 // Check if the File Handler API is supported
@@ -101,8 +101,9 @@ if ("launchQueue" in window) {
     // Handle the file when the PWA is launched with a file
     window.launchQueue.setConsumer(async (launchParams) => {
         if (launchParams.files.length > 0) {
-            const file = launchParams.files[0];
-            await handleFileOpen(file);
+            const fileHandle = launchParams.files[0];
+            const file = await fileHandle.getFile();
+            handleFileOpen(file);
         }
     });
 } else {
@@ -137,6 +138,7 @@ if ("launchQueue" in window) {
             fr.readAsText(this.files[0]);
         });
 }
+
 
 // Define the URLLink custom element extending from HTMLButtonElement
 class URLLink extends HTMLButtonElement {
