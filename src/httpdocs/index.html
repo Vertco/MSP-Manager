@@ -28,45 +28,47 @@
         <input id="customer-select" type="text" name="customer-input" list="customer-list"
           placeholder="Search customer">
         <datalist id="customer-list"></datalist>
-        <svg id="clear-button" class="icon" width="24" height="24" viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+        <svg id="clear-button" class="icon" width="24" height="24" viewBox="0 0 96 96"
+          xmlns="http://www.w3.org/2000/svg">
           <path
             d="M 48,5.5 C 71.47275,5.5 90.5,24.52725 90.5,48 90.5,71.47275 71.47275,90.5 48,90.5 24.52725,90.5 5.5,71.47275 5.5,48 5.5,24.52725 24.52725,5.5 48,5.5 Z m 0,6.375 a 36.125,36.125 0 1 0 0,72.25 36.125,36.125 0 0 0 0,-72.25 z m 14.6455,20.81225 0.357,0.31025 a 3.1875,3.1875 0 0 1 0.31025,4.148 L 63.0025,37.5025 52.50925,48 63.00675,58.4975 a 3.1875,3.1875 0 0 1 0.306,4.148 l -0.31025,0.357 a 3.1875,3.1875 0 0 1 -4.148,0.31025 L 58.4975,63.0025 48,52.50925 37.5025,63.00675 a 3.1875,3.1875 0 0 1 -4.148,0.306 l -0.357,-0.31025 a 3.1875,3.1875 0 0 1 -0.31025,-4.148 L 32.9975,58.4975 43.49075,48 32.99325,37.5025 a 3.1875,3.1875 0 0 1 -0.306,-4.148 l 0.31025,-0.357 a 3.1875,3.1875 0 0 1 4.148,-0.31025 L 37.5025,32.9975 48,43.49075 58.4975,32.99325 a 3.1875,3.1875 0 0 1 4.148,-0.306 z"
             fill="currentColor" />
         </svg>
       </div><br />
       <div id="portals-container">
-        <button is="mspButton"
+        <button is="msp-button"
           url="https://admin.microsoft.com/Partner/BeginClientSession.aspx?CTID=<microsoftId>&CSDEST=o365admincenter"><img
             src="media/adminCenter.svg">
           <p>Admin center</p>
         </button>
-        <button is="mspButton" url="https://aad.portal.azure.com/<primaryDomainName>"><img src="media/entra.svg">
+        <button is="msp-button" url="https://aad.portal.azure.com/<primaryDomainName>"><img src="media/entra.svg">
           <p>Entra</p>
         </button>
-        <button is="mspButton" url="https://endpoint.microsoft.com/<primaryDomainName>"><img src="media/intune.svg">
+        <button is="msp-button" url="https://endpoint.microsoft.com/<primaryDomainName>"><img src="media/intune.svg">
           <p>Intune</p>
         </button>
-        <button is="mspButton"
+        <button is="msp-button"
           url="https://admin.exchange.microsoft.com/?rfr=Admin_o365&exsvurl=1&delegatedOrg=<primaryDomainName>&mkt=en-US&Realm=managemsp.nl"><img
             src="media/exchange.svg">
           <p>Exchange</p>
         </button>
-        <button is="mspButton"
+        <button is="msp-button"
           url="https://admin.microsoft.com/Partner/beginclientsession.aspx?CTID=<microsoftId>&CSDEST=SharePoint"><img
             src="media/sharepoint.svg">
           <p>Sharepoint</p>
         </button>
-        <button is="mspButton" url="https://portal.azure.com/<primaryDomainName>"><img src="media/azure.svg">
+        <button is="msp-button" url="https://portal.azure.com/<primaryDomainName>"><img src="media/azure.svg">
           <p>Azure</p>
         </button>
-        <button is="mspButton" url="https://admin.teams.microsoft.com/?delegatedOrg=<primaryDomainName>"><img
+        <button is="msp-button" url="https://admin.teams.microsoft.com/?delegatedOrg=<primaryDomainName>"><img
             src="media/teams.svg">
           <p>Teams</p>
         </button>
-        <button is="mspButton" url="https://security.microsoft.com/?tid=<microsoftId>"><img src="media/defender.svg">
+        <button is="msp-button" url="https://security.microsoft.com/?tid=<microsoftId>"><img src="media/defender.svg">
           <p>Defender</p>
         </button>
-        <button is="mspButton" url="https://compliance.microsoft.com/?tid=<microsoftId>"><img src="media/compliance.svg">
+        <button is="msp-button" url="https://compliance.microsoft.com/?tid=<microsoftId>"><img
+            src="media/compliance.svg">
           <p>Compliance</p>
         </button>
       </div>

@@ -101,7 +101,7 @@ p {
     color: var(--input-color);
 }
 
-button[is=url-link] {
+button[is=msp-button] {
     background-color: var(--button-color);
     width: 150px;
     height: 40px;
@@ -112,21 +112,21 @@ button[is=url-link] {
     padding: 5px;
 }
 
-button[is=url-link]>img {
+button[is=msp-button]>img {
     height: 25px;
     width: 25px;
 }
 
-button[is=url-link]:disabled {
+button[is=msp-button]:disabled {
     opacity: 50%;
 }
 
-button[is=url-link]:hover:enabled {
+button[is=msp-button]:hover:enabled {
     border-bottom: 2px solid var(--accent-color);
     padding: 5px 5px 3px 5px;
 }
 
-button[is=url-link]>p {
+button[is=msp-button]>p {
     color: var(--text-color);
     flex-grow: 1;
 }

@@ -59,7 +59,6 @@ function populateDatalist(customers) {
     }
 }
 
-
 // Function to handle the file opening
 function handleFileOpen(blob) {
     const reader = new FileReader();
@@ -202,4 +201,4 @@ class mspButton extends HTMLButtonElement {
 }
 
 // Define the mspButton element
-customElements.define('url-link', mspButton, { extends: 'button' });
+customElements.define('msp-button', mspButton, { extends: 'button' });
