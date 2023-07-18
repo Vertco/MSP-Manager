@@ -52,18 +52,21 @@ function convertToCamelCase(str) {
         .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
 
-function populateDatalist() {
-    var datalist = document.getElementById('customer-list');
+function populateDatalist(customers) {
+    var datalist = document.getElementById("customer-list");
 
-    datalist.innerHTML = '';
+    datalist.innerHTML = "";
 
-    customers.forEach(function (customer) {
-        var option = document.createElement('option');
-        option.value = customer.companyName;
+    if (customers && customers.length > 0) {
+        customers.forEach(function (customer) {
+            var option = document.createElement("option");
+            option.value = customer.companyName;
 
-        datalist.appendChild(option);
-    });
+            datalist.appendChild(option);
+        });
+    }
 }
+
 
 // Function to handle the file opening
 function handleFileOpen(blob) {
