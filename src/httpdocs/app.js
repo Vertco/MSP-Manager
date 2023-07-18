@@ -102,6 +102,7 @@ function handleFileOpen(blob) {
 // Check if the File Handler API is supported
 if ("launchQueue" in window) {
     // Handle the file when the PWA is launched with a file
+    console.debug("Launch queue detected");
     window.launchQueue.setConsumer(async (launchParams) => {
         if (launchParams.files.length > 0) {
             const fileHandle = launchParams.files[0];
@@ -109,8 +110,38 @@ if ("launchQueue" in window) {
             handleFileOpen(file);
         }
     });
+    document
+        .getElementById('import-button')
+        .addEventListener('change', function () {
+            var fr = new FileReader();
+            fr.onload = function () {
+                var csvData = this.result;
+                var jsonObj = convertCsvToJson(csvData);
+
+                jsonObj.sort(function (a, b) {
+                    var nameA = a.companyName.toUpperCase();
+                    var nameB = b.companyName.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                localStorage.setItem('customers', JSON.stringify(jsonObj));
+                customers = JSON.parse(localStorage.getItem('customers'));
+
+                if (customers.length > 0) {
+                    populateDatalist(customers);
+                }
+            };
+            fr.readAsText(this.files[0]);
+        });
 } else {
     // Fallback for browsers without File Handler API
+    console.debug("No launch queue detected");
     document
         .getElementById('import-button')
         .addEventListener('change', function () {
