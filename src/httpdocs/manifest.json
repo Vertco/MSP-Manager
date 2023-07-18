@@ -4,8 +4,8 @@
     "description": "A web-based companion app to more easily manage partners in Microsoft PartnerCenter.",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#1c232cff",
-    "theme_color": "#0f1b28ff",
+    "background_color": "#1b1b22",
+    "theme_color": "#11111e",
     "display_override": [
         "window-controls-overlay"
     ],
@@ -40,7 +40,7 @@
         {
             "action": "/",
             "accept": {
-                "text/json": [
+                "text/csv": [
                     ".mspcsv"
                 ]
             }
