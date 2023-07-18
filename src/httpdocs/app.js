@@ -1,3 +1,4 @@
+// Variables definition
 var customers = [];
 var selectedCustomer = "";
 
@@ -7,25 +8,14 @@ if (customers && customers.length > 0) {
     populateDatalist(customers);
 }
 
+// Function to read the currently selected customer from the dropdown
 function getSelectedCustomer(value) {
     return customers.find(function (customer) {
         return customer.companyName === value;
     });
 }
 
-document
-    .getElementById('customer-select')
-    .addEventListener('input', function () {
-        selectedCustomer = getSelectedCustomer(this.value);
-    });
-
-document
-    .getElementById('clear-button')
-    .addEventListener('click', function () {
-        document.getElementById('customer-select').value = "";
-
-    });
-
+// Function to convert CSV to JSON data
 function convertCsvToJson(csvData) {
     var lines = csvData.split('\n');
     var headers = lines[0].split(',');
@@ -46,12 +36,14 @@ function convertCsvToJson(csvData) {
     return jsonArray;
 }
 
+// Function to convert text to camelcase
 function convertToCamelCase(str) {
     return str
         .toLowerCase()
         .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
 
+// Function for populating the datalist for the customer dropdown
 function populateDatalist(customers) {
     var datalist = document.getElementById("customer-list");
 
@@ -99,49 +91,8 @@ function handleFileOpen(blob) {
     reader.readAsText(blob);
 }
 
-// Check if the File Handler API is supported
-if ("launchQueue" in window) {
-    // Handle the file when the PWA is launched with a file
-    console.debug("Launch queue detected");
-    window.launchQueue.setConsumer(async (launchParams) => {
-        if (launchParams.files.length > 0) {
-            const fileHandle = launchParams.files[0];
-            const file = await fileHandle.getFile();
-            handleFileOpen(file);
-        }
-    });
-    document
-        .getElementById('import-button')
-        .addEventListener('change', function () {
-            var fr = new FileReader();
-            fr.onload = function () {
-                var csvData = this.result;
-                var jsonObj = convertCsvToJson(csvData);
-
-                jsonObj.sort(function (a, b) {
-                    var nameA = a.companyName.toUpperCase();
-                    var nameB = b.companyName.toUpperCase();
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-                    return 0;
-                });
-
-                localStorage.setItem('customers', JSON.stringify(jsonObj));
-                customers = JSON.parse(localStorage.getItem('customers'));
-
-                if (customers.length > 0) {
-                    populateDatalist(customers);
-                }
-            };
-            fr.readAsText(this.files[0]);
-        });
-} else {
-    // Fallback for browsers without File Handler API
-    console.debug("No launch queue detected");
+// Function to add event listener for the import button 
+function addImportListener() {
     document
         .getElementById('import-button')
         .addEventListener('change', function () {
@@ -173,9 +124,41 @@ if ("launchQueue" in window) {
         });
 }
 
+// Check if the File Handler API is supported
+if ("launchQueue" in window) {
+    // Handle the file when the PWA is launched with a file
+    console.debug("Launch queue detected");
+    window.launchQueue.setConsumer(async (launchParams) => {
+        if (launchParams.files.length > 0) {
+            const fileHandle = launchParams.files[0];
+            const file = await fileHandle.getFile();
+            handleFileOpen(file);
+        }
+    });
+    addImportListener();
+} else {
+    // Fallback for browsers without File Handler API
+    console.debug("No launch queue detected");
+    addImportListener();
+}
 
-// Define the URLLink custom element extending from HTMLButtonElement
-class URLLink extends HTMLButtonElement {
+// Add event listener for customer dropdown
+document
+    .getElementById('customer-select')
+    .addEventListener('input', function () {
+        selectedCustomer = getSelectedCustomer(this.value);
+    });
+
+// Add event listener for clear button
+document
+    .getElementById('clear-button')
+    .addEventListener('click', function () {
+        document.getElementById('customer-select').value = "";
+
+    });
+
+// Define the mspButton custom element extending from HTMLButtonElement
+class mspButton extends HTMLButtonElement {
     constructor() {
         super();
     }
@@ -218,5 +201,5 @@ class URLLink extends HTMLButtonElement {
     }
 }
 
-// Define the custom element
-customElements.define('url-link', URLLink, { extends: 'button' });
+// Define the mspButton element
+customElements.define('url-link', mspButton, { extends: 'button' });
