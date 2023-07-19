@@ -83,6 +83,7 @@ p {
     border-width: 0;
     color: var(--text-color);
     background-color: var(--input-color);
+    outline: none;
 }
 
 #customer-select:hover {
@@ -121,14 +122,41 @@ button[is=msp-button]:disabled {
     opacity: 50%;
 }
 
-button[is=msp-button]:hover:enabled {
+button[is=msp-button]:hover:enabled,
+#tenant-id:hover:enabled {
     border-bottom: 2px solid var(--accent-color);
     padding: 5px 5px 3px 5px;
 }
 
-button[is=msp-button]>p {
+button[is=msp-button]>p,
+#tenant-id>p {
     color: var(--text-color);
     flex-grow: 1;
+}
+
+#footer {
+    padding: 10px;
+}
+
+#tenant-id {
+    background-color: var(--button-color);
+    width: 350px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border-width: 0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#tenant-id:disabled {
+    opacity: 50%;
+}
+
+#tenant-id>svg {
+    color: var(--text-color);
+    width: 20px;
 }
 
 .icon {
