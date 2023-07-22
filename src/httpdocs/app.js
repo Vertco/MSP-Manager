@@ -149,14 +149,13 @@ document
     .addEventListener('input', function () {
         selectedCustomer = getSelectedCustomer(this.value);
         document.getElementById('tenant-id').disabled = false;
-        document.querySelector('#tenant-id>p').innerHTML = selectedCustomer.microsoftId;
-    });
-
-// Add event listener for clear button
-document
-    .getElementById('clear-button')
-    .addEventListener('click', function () {
-        document.getElementById('customer-select').value = '';
+        tenantIdButton = document.querySelector('#tenant-id>p')
+        if (selectedCustomer) {
+            tenantIdButton.innerHTML = selectedCustomer.microsoftId;
+        } else {
+            document.getElementById('tenant-id').disabled = true;
+            tenantIdButton.innerHTML = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+        }
     });
 
 // Add event listener for tenant ID button
