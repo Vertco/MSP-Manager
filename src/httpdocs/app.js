@@ -1,6 +1,6 @@
 // Variables definition
 var customers = [];
-var selectedCustomer = "";
+var selectedCustomer = '';
 
 // Check if customers exist and populate datalist on startup
 customers = JSON.parse(localStorage.getItem('customers'));
@@ -13,6 +13,10 @@ function getSelectedCustomer(value) {
     return customers.find(function (customer) {
         return customer.companyName === value;
     });
+}
+
+function deselectCustomer() {
+
 }
 
 // Function to convert CSV to JSON data
@@ -45,13 +49,13 @@ function convertToCamelCase(str) {
 
 // Function for populating the datalist for the customer dropdown
 function populateDatalist(customers) {
-    var datalist = document.getElementById("customer-list");
+    var datalist = document.getElementById('customer-list');
 
-    datalist.innerHTML = "";
+    datalist.innerHTML = '';
 
     if (customers && customers.length > 0) {
         customers.forEach(function (customer) {
-            var option = document.createElement("option");
+            var option = document.createElement('option');
             option.value = customer.companyName;
 
             datalist.appendChild(option);
@@ -79,8 +83,8 @@ function handleFileOpen(blob) {
             return 0;
         });
 
-        localStorage.setItem("customers", JSON.stringify(jsonData));
-        const customers = JSON.parse(localStorage.getItem("customers"));
+        localStorage.setItem('customers', JSON.stringify(jsonData));
+        const customers = JSON.parse(localStorage.getItem('customers'));
 
         if (customers.length > 0) {
             populateDatalist(customers);
@@ -124,9 +128,8 @@ function addImportListener() {
 }
 
 // Check if the File Handler API is supported
-if ("launchQueue" in window) {
+if ('launchQueue' in window) {
     // Handle the file when the PWA is launched with a file
-    console.debug("Launch queue detected");
     window.launchQueue.setConsumer(async (launchParams) => {
         if (launchParams.files.length > 0) {
             const fileHandle = launchParams.files[0];
@@ -137,7 +140,6 @@ if ("launchQueue" in window) {
     addImportListener();
 } else {
     // Fallback for browsers without File Handler API
-    console.debug("No launch queue detected");
     addImportListener();
 }
 
@@ -146,14 +148,29 @@ document
     .getElementById('customer-select')
     .addEventListener('input', function () {
         selectedCustomer = getSelectedCustomer(this.value);
+        document.getElementById('tenant-id').disabled = false;
+        tenantIdButton = document.querySelector('#tenant-id>p')
+        if (selectedCustomer) {
+            tenantIdButton.innerHTML = selectedCustomer.microsoftId;
+        } else {
+            document.getElementById('tenant-id').disabled = true;
+            tenantIdButton.innerHTML = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+        }
     });
 
-// Add event listener for clear button
+// Add event listener for tenant ID button
 document
-    .getElementById('clear-button')
+    .getElementById('tenant-id')
     .addEventListener('click', function () {
-        document.getElementById('customer-select').value = "";
-
+        if (selectedCustomer) {
+            tenantId = selectedCustomer.microsoftId;
+            navigator.clipboard.writeText(tenantId);
+            document.querySelector('#tenant-id>p').innerHTML = 'Copied!';
+            setTimeout(function () {
+                document
+                    .querySelector('#tenant-id>p').innerHTML = selectedCustomer.microsoftId
+            }, 1000);
+        }
     });
 
 // Define the mspButton custom element extending from HTMLButtonElement
@@ -178,6 +195,8 @@ class mspButton extends HTMLButtonElement {
                 var updatedUrl = url.replace(/<microsoftId>/g, encodeURIComponent(selectedCustomer.microsoftId));
                 updatedUrl = updatedUrl.replace(/<primaryDomainName>/g, encodeURIComponent(selectedCustomer.primaryDomainName));
                 this.setAttribute('url', updatedUrl);
+            } else {
+                this.disabled = true;
             }
 
             // Enable the element when selectedCustomer changes from empty to not empty
