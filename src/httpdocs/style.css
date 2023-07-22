@@ -62,8 +62,10 @@ p {
     flex-direction: column;
 }
 
-#portals-container {
+#buttons-container {
+    height: 400px;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
@@ -72,17 +74,27 @@ p {
 #searchbar {
     display: flex;
     align-items: center;
+    width: 350px;
     gap: 5px;
 }
 
 #customer-select {
-    width: 200px;
-    height: 25px;
+    flex-grow: 1;
+    height: 35px;
     padding: 5px 5px 5px 10px;
     border-radius: 5px;
     border-width: 0;
     color: var(--text-color);
     background-color: var(--input-color);
+    outline: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 1.25em;
+    width: 1.25em;
+    background: url(media/clear.svg);
+    background-size: contain;
 }
 
 #customer-select:hover {
@@ -103,7 +115,7 @@ p {
 
 button[is=msp-button] {
     background-color: var(--button-color);
-    width: 150px;
+    width: 175px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -121,14 +133,41 @@ button[is=msp-button]:disabled {
     opacity: 50%;
 }
 
-button[is=msp-button]:hover:enabled {
+button[is=msp-button]:hover:enabled,
+#tenant-id:hover:enabled {
     border-bottom: 2px solid var(--accent-color);
     padding: 5px 5px 3px 5px;
 }
 
-button[is=msp-button]>p {
+button[is=msp-button]>p,
+#tenant-id>p {
     color: var(--text-color);
     flex-grow: 1;
+}
+
+#footer {
+    padding: 10px;
+}
+
+#tenant-id {
+    background-color: var(--button-color);
+    width: 350px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border-width: 0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+#tenant-id:disabled {
+    opacity: 50%;
+}
+
+#tenant-id>svg {
+    color: var(--text-color);
+    width: 20px;
 }
 
 .icon {

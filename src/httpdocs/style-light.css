@@ -21,3 +21,7 @@ body {
     background: #ffffffcc;
     filter: drop-shadow(5px 5px 0.75rem #000000aa);
 }
+
+input[type="search"]::-webkit-search-cancel-button {
+    filter: invert(1);
+}
