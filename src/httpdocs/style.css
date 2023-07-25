@@ -67,6 +67,7 @@ p {
 
 
 #buttons-container {
+    width: 83%;
     height: 400px;
     display: flex;
     flex-wrap: wrap;
