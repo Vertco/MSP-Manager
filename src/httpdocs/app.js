@@ -173,6 +173,14 @@ document
         }
     });
 
+// Add event listener for PIM button
+document
+    .getElementById('pim-button')
+    .addEventListener('click', function () {
+        window.open('https://entra.microsoft.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade', '_blank')
+    }
+    );
+
 // Define the mspButton custom element extending from HTMLButtonElement
 class mspButton extends HTMLButtonElement {
     constructor() {
