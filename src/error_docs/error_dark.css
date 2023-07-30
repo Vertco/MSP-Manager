@@ -1,9 +1,9 @@
 html {
-    background-color: #103555;
-    background-image: url('/media/background-dark.webp');
+    background: #252526;
+    background: radial-gradient(at center, #252526, #12121E);
     background-size: auto;
     color: #ffffff;
-    font-family: 'Open Sans', 'Roboto', 'Arial';
+    font-family: Tahoma, sans-serif;
 }
 
 h1 {
@@ -52,9 +52,8 @@ a:hover {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     background-blend-mode: exclusion;
-    background: #1b1b1b99;
-    padding: 20px;
-    border-radius: 10px;
+    background: #2e2e2e99;
+    filter: drop-shadow(5px 5px 0.75rem #000000aa);
 }
 
 @media only screen and (max-width: 768px) {
