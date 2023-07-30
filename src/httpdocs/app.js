@@ -2,21 +2,40 @@
 var customers = [];
 var selectedCustomer = '';
 
+// Constants definition
+const defaultOrder = [["admincenter", "entra", "intune", "exchange", "sharepoint", "azure", "teams", "defender", "purview"], []];
+const draggables = document.querySelectorAll('.draggable')
+const containers = document.querySelectorAll('.container')
+
 // Check if customers exist and populate datalist on startup
 customers = JSON.parse(localStorage.getItem('customers'));
 if (customers && customers.length > 0) {
     populateDatalist(customers);
 }
 
-// Function to read the currently selected customer from the dropdown
-function getSelectedCustomer(value) {
-    return customers.find(function (customer) {
-        return customer.companyName === value;
+// Ckeck if savedOrder exists and restore order on startup
+const savedOrder = localStorage.getItem('savedOrder');
+if (savedOrder) {
+    const containerIds = JSON.parse(savedOrder);
+    containers.forEach((container, index) => {
+        containerIds[index].forEach(draggableId => {
+            const draggable = document.getElementById(draggableId);
+            if (draggable) {
+                container.appendChild(draggable);
+            } else {
+                console.warn(`Draggable element with ID ${draggableId} not found.`);
+            }
+        });
     });
 }
 
-function deselectCustomer() {
-
+// Function to read the currently selected customer from the dropdown
+function getSelectedCustomer(value) {
+    if (customers) {
+        return customers.find(function (customer) {
+            return customer.companyName === value;
+        });
+    }
 }
 
 // Function to convert CSV to JSON data
@@ -185,9 +204,6 @@ document
 class mspButton extends HTMLButtonElement {
     constructor() {
         super();
-    }
-
-    connectedCallback() {
         this.style.cursor = 'pointer';
 
         // Retrieve the initial URL attribute
@@ -219,6 +235,11 @@ class mspButton extends HTMLButtonElement {
             window.open(this.getAttribute('url'), '_blank');
         });
 
+        // Handle dropping element
+        this.addEventListener('dragend', () => {
+            updateUrl();
+        });
+
         // Handle changes in the customer selection
         document.getElementById('customer-select').addEventListener('input', updateUrl);
 
@@ -229,3 +250,51 @@ class mspButton extends HTMLButtonElement {
 
 // Define the mspButton element
 customElements.define('msp-button', mspButton, { extends: 'button' });
+
+// Function to save the order of the MSP buttons
+function saveOrder() {
+    const containerIds = Array.from(containers).map(container => {
+        return Array.from(container.children).map(draggable => draggable.id);
+    });
+    localStorage.setItem('savedOrder', JSON.stringify(containerIds));
+}
+
+// Add event listeners for dragging buttons
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging')
+    })
+
+    draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging');
+        saveOrder(); // Save the order when drag ends
+    })
+})
+
+// Add event listeners to allow for dropping
+containers.forEach(container => {
+    container.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(container, e.clientY)
+        const draggable = document.querySelector('.dragging')
+        if (afterElement == null) {
+            container.appendChild(draggable)
+        } else {
+            container.insertBefore(draggable, afterElement)
+        }
+    })
+})
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child }
+        } else {
+            return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
+}
