@@ -1,6 +1,6 @@
 {
-    "name": "MSP Manager",
-    "short_name": "MSP Manager",
+    "name": "MSP-Manager",
+    "short_name": "MSP-Manager",
     "description": "A web-based companion app to more easily manage partners in Microsoft PartnerCenter.",
     "start_url": "/",
     "display": "standalone",
