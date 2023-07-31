@@ -6,6 +6,7 @@
     "display": "standalone",
     "background_color": "#1b1b22",
     "theme_color": "#11111e",
+    "orientation": "any", 
     "display_override": [
         "window-controls-overlay"
     ],
@@ -31,9 +32,22 @@
             "type": "image/png"
         },
         {
+            "src": "media/icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
             "src": "media/icon_512.svg",
             "sizes": "512x512",
             "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "media/screenshot.webp",
+            "sizes": "1280x720",
+            "type": "image/webp",
+            "platform": "wide"
         }
     ],
     "file_handlers": [
