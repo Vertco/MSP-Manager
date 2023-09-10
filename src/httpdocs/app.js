@@ -6,6 +6,7 @@ var selectedCustomer = '';
 const defaultOrder = [["admincenter", "entra", "intune", "exchange", "sharepoint", "azure", "teams", "defender", "purview"], []];
 const draggables = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.container')
+const dropOverlay = document.getElementById('drop-overlay');
 
 // Check if customers exist and populate datalist on startup
 customers = JSON.parse(localStorage.getItem('customers'));
@@ -27,6 +28,104 @@ if (savedOrder) {
             }
         });
     });
+}
+
+// Function to import the files by dragging them in
+function dropHandler(ev) {
+
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+    hideDragOverlay();
+
+    if (ev.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        [...ev.dataTransfer.items].forEach((item, i) => {
+            // If dropped items aren't files, reject them
+            if (item.kind === "file") {
+                const file = item.getAsFile();
+
+                // Check the file type (extension)
+                const fileType = file.name.split('.').pop().toLowerCase();
+                if (fileType === 'csv' || fileType === 'mspcsv') {
+                    // Read the dropped file as text
+                    const fr = new FileReader();
+                    fr.onload = function () {
+                        const csvData = this.result;
+
+                        // Convert CSV to JSON
+                        const jsonObj = convertCsvToJson(csvData);
+
+                        jsonObj.sort(function (a, b) {
+                            var nameA = a.companyName.toUpperCase();
+                            var nameB = b.companyName.toUpperCase();
+                            if (nameA < nameB) {
+                                return -1;
+                            }
+                            if (nameA > nameB) {
+                                return 1;
+                            }
+                            return 0;
+                        });
+
+                        localStorage.setItem('customers', JSON.stringify(jsonObj));
+                        customers = JSON.parse(localStorage.getItem('customers'));
+
+                        if (customers.length > 0) {
+                            populateDatalist(customers);
+                        }
+                    };
+                    fr.readAsText(file);
+                } else {
+                    console.log(`Unsupported file type: ${fileType}`);
+                }
+            }
+        });
+    } else {
+        // Use DataTransfer interface to access the file(s)
+        [...ev.dataTransfer.files].forEach((file, i) => {
+
+            // Check the file type (extension)
+            const fileType = file.name.split('.').pop().toLowerCase();
+            if (fileType === 'csv' || fileType === 'mspcsv') {
+                // Read the dropped file as text
+                const fr = new FileReader();
+                fr.onload = function () {
+                    const csvData = this.result;
+
+                    // Convert CSV to JSON
+                    const jsonObj = convertCsvToJson(csvData);
+
+                    jsonObj.sort(function (a, b) {
+                        var nameA = a.companyName.toUpperCase();
+                        var nameB = b.companyName.toUpperCase();
+                        if (nameA < nameB) {
+                            return -1;
+                        }
+                        if (nameA > nameB) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+
+                    localStorage.setItem('customers', JSON.stringify(jsonObj));
+                    customers = JSON.parse(localStorage.getItem('customers'));
+
+                    if (customers.length > 0) {
+                        populateDatalist(customers);
+                    }
+                };
+                fr.readAsText(file);
+            } else {
+                console.log(`Unsupported file type: ${fileType}`);
+            }
+        });
+    }
+}
+
+// Function to disable the browser's default drag behaviour
+function dragOverHandler(ev) {
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
 }
 
 // Function to read the currently selected customer from the dropdown
@@ -103,7 +202,7 @@ function handleFileOpen(blob) {
         });
 
         localStorage.setItem('customers', JSON.stringify(jsonData));
-        const customers = JSON.parse(localStorage.getItem('customers'));
+        customers = JSON.parse(localStorage.getItem('customers'));
 
         if (customers.length > 0) {
             populateDatalist(customers);
@@ -146,6 +245,19 @@ function addImportListener() {
         });
 }
 
+// Function to copy tenant ID to clipboard
+function copyTenantID() {
+    if (selectedCustomer) {
+        tenantId = selectedCustomer.microsoftId;
+        navigator.clipboard.writeText(tenantId);
+        document.querySelector('#tenant-id>p').innerHTML = 'Copied!';
+        setTimeout(function () {
+            document
+                .querySelector('#tenant-id>p').innerHTML = selectedCustomer.microsoftId
+        }, 1000);
+    }
+}
+
 // Check if the File Handler API is supported
 if ('launchQueue' in window) {
     // Handle the file when the PWA is launched with a file
@@ -176,29 +288,6 @@ document
             tenantIdButton.innerHTML = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
         }
     });
-
-// Add event listener for tenant ID button
-document
-    .getElementById('tenant-id')
-    .addEventListener('click', function () {
-        if (selectedCustomer) {
-            tenantId = selectedCustomer.microsoftId;
-            navigator.clipboard.writeText(tenantId);
-            document.querySelector('#tenant-id>p').innerHTML = 'Copied!';
-            setTimeout(function () {
-                document
-                    .querySelector('#tenant-id>p').innerHTML = selectedCustomer.microsoftId
-            }, 1000);
-        }
-    });
-
-// Add event listener for PIM button
-document
-    .getElementById('pim-button')
-    .addEventListener('click', function () {
-        window.open('https://entra.microsoft.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade', '_blank')
-    }
-    );
 
 // Define the mspButton custom element extending from HTMLButtonElement
 class mspButton extends HTMLButtonElement {
@@ -297,4 +386,13 @@ function getDragAfterElement(container, y) {
             return closest
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+
+// Functions to show and hide the drag-and-drop overlay for importing files
+function showDragOverlay() {
+    dropOverlay.style.display = 'flex';
+}
+
+function hideDragOverlay() {
+    dropOverlay.style.display = 'none';
 }
