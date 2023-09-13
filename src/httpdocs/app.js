@@ -130,9 +130,10 @@ function dragOverHandler(ev) {
 
 // Function to read the currently selected customer from the dropdown
 function getSelectedCustomer(value) {
+    const companyName = value.split(" | ")[0]; // Split and get the companyName
     if (customers) {
         return customers.find(function (customer) {
-            return customer.companyName === value;
+            return customer.companyName === companyName;
         });
     }
 }
@@ -174,7 +175,7 @@ function populateDatalist(customers) {
     if (customers && customers.length > 0) {
         customers.forEach(function (customer) {
             var option = document.createElement('option');
-            option.value = customer.companyName;
+            option.value = `${customer.companyName} | ${customer.primaryDomainName}`;
 
             datalist.appendChild(option);
         });
