@@ -12,7 +12,7 @@ jobs:
     - name: ftp-action
       uses: sebastianpopp/ftp-action@releases/v2
       with:
-        host: plesk.aadhosting.nl
+        host: plesk2.aadhosting.nl
         user: managemsp-github
         password: Pgyz?9775
         localDir: "./src"
