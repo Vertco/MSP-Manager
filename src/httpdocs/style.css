@@ -9,6 +9,11 @@
     font-size: 3.5mm;
 }
 
+body {
+    background: var(--main-bg-color);
+    background: var(--main-background-gradient);
+}
+
 a {
     font-size: 3mm;
 }
@@ -54,13 +59,16 @@ p {
     flex-direction: column;
 }
 
-#backdrop {
-    width: 350px;
-    height: 425px;
-    padding: 35px 50px;
-    border-radius: 5mm;
-    gap: 20px;
-    display: flex;
+#container {
+    position: relative;
+}
+
+#drop-overlay {
+    z-index: 5;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: none;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -114,6 +122,35 @@ input[type="search"]::-webkit-search-cancel-button {
 
 #import-button {
     display: none;
+}
+
+#backdrop {
+    width: 350px;
+    height: 425px;
+    padding: 35px 50px;
+    border-radius: 5mm;
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.dropzone {
+    width: 346px;
+    height: 421px;
+    margin-top: 250px;
+    padding: 35px 50px;
+    border-radius: 5mm;
+    gap: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background-blend-mode: exclusion;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: dashed var(--accent-color);
 }
 
 .icon {

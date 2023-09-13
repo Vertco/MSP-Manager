@@ -1,5 +1,6 @@
 :root {
     /* <--- Color variables ---> */
+    --main-background-gradient: radial-gradient(at center, #252526, #12121E);
     --main-bg-color: #252526;
     --accent-color: #115ea3;
     --text-color: #fff;
@@ -7,11 +8,6 @@
     --input-color: #141414;
     --positive-color: #4CAF50;
     --negative-color: #b23c3c;
-}
-
-body {
-    background: #252526;
-    background: radial-gradient(at center, #252526, #12121E);
 }
 
 .acrylic {
