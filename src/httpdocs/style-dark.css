@@ -1,6 +1,6 @@
 :root {
     /* <--- Color variables ---> */
-    --main-background-gradient: radial-gradient(at center, #252526, #12121E);
+    --main-bg-gradient: radial-gradient(at center, #252526, #12121E);
     --main-bg-color: #252526;
     --accent-color: #115ea3;
     --text-color: #fff;
