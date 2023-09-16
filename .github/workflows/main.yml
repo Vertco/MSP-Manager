@@ -13,8 +13,8 @@ jobs:
       uses: sebastianpopp/ftp-action@releases/v2
       with:
         host: plesk2.aadhosting.nl
-        user: managemsp-github
-        password: Pgyz?9775
+        user: ${{ secrets.FTP_USER }}
+        password: ${{ secrets.FTP_PW }}
         localDir: "./src"
         remoteDir: "."
         options: "--delete --asci"
