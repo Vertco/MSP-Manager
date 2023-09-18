@@ -11,7 +11,7 @@
 
 body {
     background: var(--main-bg-color);
-    background: var(--main-background-gradient);
+    background: var(--main-bg-gradient);
 }
 
 a {
