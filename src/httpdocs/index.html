@@ -12,9 +12,9 @@
 </head>
 
 <body>
-  <div id="container" ondragover="showDragOverlay()">
+  <div id="container">
     <div id="content-container">
-      <img src="media/Logo.svg" id="logo">
+      <img src="media/Logo.svg" id="logo" draggable="false">
       <div id="backdrop" class="acrylic">
         <h1>MSP Manager</h1>
         <div id="searchbar">
@@ -31,50 +31,50 @@
             <input type="file" accept=".csv, .mspcsv" id="import-button" />
           </label>
         </div>
-        <div id="buttons-container" class="container">
-          <button id="admincenter" is="msp-button" class="draggable" draggable="true" title="Microsoft Admin Center"
-            url="https://admin.microsoft.com/Partner/BeginClientSession.aspx?CTID=<microsoftId>&CSDEST=o365admincenter"><img
-              src="media/adminCenter.svg">
-            <p>Admin center</p>
-          </button>
-          <button id="entra" is="msp-button" class="draggable" draggable="true" title="Microsoft Entra ID"
-            url="https://aad.portal.azure.com/<primaryDomainName>"><img src="media/entra.svg">
-            <p>Entra</p>
-          </button>
-          <button id="intune" is="msp-button" class="draggable" draggable="true" title="Microsoft Intune"
-            url="https://endpoint.microsoft.com/<primaryDomainName>"><img src="media/intune.svg">
-            <p>Intune</p>
-          </button>
-          <button id="exchange" is="msp-button" class="draggable" draggable="true"
-            title="Microsoft Exchange Admin Center"
-            url="https://admin.exchange.microsoft.com/?rfr=Admin_o365&exsvurl=1&delegatedOrg=<primaryDomainName>&mkt=en-US&Realm=managemsp.nl"><img
-              src="media/exchange.svg">
-            <p>Exchange</p>
-          </button>
-          <button id="sharepoint" is="msp-button" class="draggable" draggable="true"
-            title="Microsoft Sharepoint Admin Center"
-            url="https://admin.microsoft.com/Partner/beginclientsession.aspx?CTID=<microsoftId>&CSDEST=SharePoint"><img
-              src="media/sharepoint.svg">
-            <p>Sharepoint</p>
-          </button>
-          <button id="azure" is="msp-button" class="draggable" draggable="true" title="Microsoft Azure"
-            url="https://portal.azure.com/<primaryDomainName>"><img src="media/azure.svg">
-            <p>Azure</p>
-          </button>
-          <button id="teams" is="msp-button" class="draggable" draggable="true" title="Microsoft Teams Admin Center"
-            url="https://admin.teams.microsoft.com/?delegatedOrg=<primaryDomainName>"><img src="media/teams.svg">
-            <p>Teams</p>
-          </button>
-          <button id="defender" is="msp-button" class="draggable" draggable="true" title="Microsoft 365 Defender"
-            url="https://security.microsoft.com/?tid=<microsoftId>"><img src="media/defender.svg">
-            <p>Defender</p>
-          </button>
-          <button id="purview" is="msp-button" class="draggable" draggable="true" title="Microsoft 365 Purview"
-            url="https://compliance.microsoft.com/?tid=<microsoftId>"><img src="media/purview.svg">
-            <p>Purview</p>
-          </button>
-        </div>
-        <div id="footer">
+        <div id="tenant-container">
+          <div id="buttons-container" class="container">
+            <button id="admincenter" is="msp-button" class="draggable" draggable="true" title="Microsoft Admin Center"
+              url="https://admin.microsoft.com/Partner/BeginClientSession.aspx?CTID=<microsoftId>&CSDEST=o365admincenter"><img
+                src="media/adminCenter.svg">
+              <p>Admin center</p>
+            </button>
+            <button id="entra" is="msp-button" class="draggable" draggable="true" title="Microsoft Entra ID"
+              url="https://aad.portal.azure.com/<primaryDomainName>"><img src="media/entra.svg">
+              <p>Entra</p>
+            </button>
+            <button id="intune" is="msp-button" class="draggable" draggable="true" title="Microsoft Intune"
+              url="https://endpoint.microsoft.com/<primaryDomainName>"><img src="media/intune.svg">
+              <p>Intune</p>
+            </button>
+            <button id="exchange" is="msp-button" class="draggable" draggable="true"
+              title="Microsoft Exchange Admin Center"
+              url="https://admin.exchange.microsoft.com/?rfr=Admin_o365&exsvurl=1&delegatedOrg=<primaryDomainName>&mkt=en-US&Realm=managemsp.nl"><img
+                src="media/exchange.svg">
+              <p>Exchange</p>
+            </button>
+            <button id="sharepoint" is="msp-button" class="draggable" draggable="true"
+              title="Microsoft Sharepoint Admin Center"
+              url="https://admin.microsoft.com/Partner/beginclientsession.aspx?CTID=<microsoftId>&CSDEST=SharePoint"><img
+                src="media/sharepoint.svg">
+              <p>Sharepoint</p>
+            </button>
+            <button id="azure" is="msp-button" class="draggable" draggable="true" title="Microsoft Azure"
+              url="https://portal.azure.com/<primaryDomainName>"><img src="media/azure.svg">
+              <p>Azure</p>
+            </button>
+            <button id="teams" is="msp-button" class="draggable" draggable="true" title="Microsoft Teams Admin Center"
+              url="https://admin.teams.microsoft.com/?delegatedOrg=<primaryDomainName>"><img src="media/teams.svg">
+              <p>Teams</p>
+            </button>
+            <button id="defender" is="msp-button" class="draggable" draggable="true" title="Microsoft 365 Defender"
+              url="https://security.microsoft.com/?tid=<microsoftId>"><img src="media/defender.svg">
+              <p>Defender</p>
+            </button>
+            <button id="purview" is="msp-button" class="draggable" draggable="true" title="Microsoft 365 Purview"
+              url="https://compliance.microsoft.com/?tid=<microsoftId>"><img src="media/purview.svg">
+              <p>Purview</p>
+            </button>
+          </div>
           <button title="Copy selected tenant ID" id="tenant-id" class="icon-button" disabled onclick="copyTenantID()">
             <svg class="icon" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -82,6 +82,26 @@
                 fill="currentColor" />
             </svg>
             <p>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</p>
+          </button>
+          <button title="Copy selected tenant domain" id="tenant-domain" class="icon-button" disabled onclick="copyTenantDomain()">
+            <svg class="icon" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M5.503 4.627 5.5 6.75v10.504a3.25 3.25 0 0 0 3.25 3.25h8.616a2.251 2.251 0 0 1-2.122 1.5H8.75A4.75 4.75 0 0 1 4 17.254V6.75c0-.98.627-1.815 1.503-2.123ZM17.75 2A2.25 2.25 0 0 1 20 4.25v13a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-13A2.25 2.25 0 0 1 8.75 2h9Zm0 1.5h-9a.75.75 0 0 0-.75.75v13c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75v-13a.75.75 0 0 0-.75-.75Z"
+                fill="currentColor" />
+            </svg>
+            <p>contoso.com</p>
+          </button>
+        </div>
+        <div id="footer">
+          <button title="Microsoft Partner Center" id="partner-button" class="icon-button half"
+            onclick="window.open('https://partner.microsoft.com/commerce/customers/list', '_blank');">
+            <img src="media/partnercenter.svg">
+            <p>Partner Center</p>
+          </button>
+          <button title="Microsoft Lighthouse" id="lighthouse-button" class="icon-button half"
+            onclick="window.open('https://lighthouse.microsoft.com/', '_blank');">
+            <img src="media/lighthouse.webp">
+            <p>Lighthouse</p>
           </button>
           <button title="Azure PIM requests" id="pim-button" class="icon-button"
             onclick="window.open('https://entra.microsoft.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade', '_blank');">

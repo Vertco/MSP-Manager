@@ -161,6 +161,19 @@ function copyTenantID() {
     }
 }
 
+// Function to copy tenant domain to clipboard
+function copyTenantDomain() {
+    if (selectedCustomer) {
+        tenantDomain = selectedCustomer.primaryDomainName;
+        navigator.clipboard.writeText(tenantDomain);
+        document.querySelector('#tenant-domain>p').innerHTML = 'Copied!';
+        setTimeout(function () {
+            document
+                .querySelector('#tenant-domain>p').innerHTML = selectedCustomer.primaryDomainName
+        }, 1000);
+    }
+}
+
 // Check if the File Handler API is supported
 if ('launchQueue' in window) {
     // Handle the file when the PWA is launched with a file
@@ -183,12 +196,17 @@ document
     .addEventListener('input', function () {
         selectedCustomer = getSelectedCustomer(this.value);
         document.getElementById('tenant-id').disabled = false;
-        tenantIdButton = document.querySelector('#tenant-id>p')
+        document.getElementById('tenant-domain').disabled = false;
+        tenantIdButton = document.querySelector('#tenant-id>p');
+        tenantDomainButton = document.querySelector('#tenant-domain>p');
         if (selectedCustomer) {
             tenantIdButton.innerHTML = selectedCustomer.microsoftId;
+            tenantDomainButton.innerHTML = selectedCustomer.primaryDomainName;
         } else {
             document.getElementById('tenant-id').disabled = true;
             tenantIdButton.innerHTML = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+            document.getElementById('tenant-domain').disabled = true;
+            tenantDomainButton.innerHTML = "contoso.com";
         }
     });
 
