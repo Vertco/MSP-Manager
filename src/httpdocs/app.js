@@ -30,104 +30,6 @@ if (savedOrder) {
     });
 }
 
-// Function to import the files by dragging them in
-function dropHandler(ev) {
-
-    // Prevent default behavior (Prevent file from being opened)
-    ev.preventDefault();
-    hideDragOverlay();
-
-    if (ev.dataTransfer.items) {
-        // Use DataTransferItemList interface to access the file(s)
-        [...ev.dataTransfer.items].forEach((item, i) => {
-            // If dropped items aren't files, reject them
-            if (item.kind === "file") {
-                const file = item.getAsFile();
-
-                // Check the file type (extension)
-                const fileType = file.name.split('.').pop().toLowerCase();
-                if (fileType === 'csv' || fileType === 'mspcsv') {
-                    // Read the dropped file as text
-                    const fr = new FileReader();
-                    fr.onload = function () {
-                        const csvData = this.result;
-
-                        // Convert CSV to JSON
-                        const jsonObj = convertCsvToJson(csvData);
-
-                        jsonObj.sort(function (a, b) {
-                            var nameA = a.companyName.toUpperCase();
-                            var nameB = b.companyName.toUpperCase();
-                            if (nameA < nameB) {
-                                return -1;
-                            }
-                            if (nameA > nameB) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-
-                        localStorage.setItem('customers', JSON.stringify(jsonObj));
-                        customers = JSON.parse(localStorage.getItem('customers'));
-
-                        if (customers.length > 0) {
-                            populateDatalist(customers);
-                        }
-                    };
-                    fr.readAsText(file);
-                } else {
-                    console.log(`Unsupported file type: ${fileType}`);
-                }
-            }
-        });
-    } else {
-        // Use DataTransfer interface to access the file(s)
-        [...ev.dataTransfer.files].forEach((file, i) => {
-
-            // Check the file type (extension)
-            const fileType = file.name.split('.').pop().toLowerCase();
-            if (fileType === 'csv' || fileType === 'mspcsv') {
-                // Read the dropped file as text
-                const fr = new FileReader();
-                fr.onload = function () {
-                    const csvData = this.result;
-
-                    // Convert CSV to JSON
-                    const jsonObj = convertCsvToJson(csvData);
-
-                    jsonObj.sort(function (a, b) {
-                        var nameA = a.companyName.toUpperCase();
-                        var nameB = b.companyName.toUpperCase();
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-                        return 0;
-                    });
-
-                    localStorage.setItem('customers', JSON.stringify(jsonObj));
-                    customers = JSON.parse(localStorage.getItem('customers'));
-
-                    if (customers.length > 0) {
-                        populateDatalist(customers);
-                    }
-                };
-                fr.readAsText(file);
-            } else {
-                console.log(`Unsupported file type: ${fileType}`);
-            }
-        });
-    }
-}
-
-// Function to disable the browser's default drag behaviour
-function dragOverHandler(ev) {
-    // Prevent default behavior (Prevent file from being opened)
-    ev.preventDefault();
-}
-
 // Function to read the currently selected customer from the dropdown
 function getSelectedCustomer(value) {
     const companyName = value.split(" | ")[0]; // Split and get the companyName
@@ -259,6 +161,19 @@ function copyTenantID() {
     }
 }
 
+// Function to copy tenant domain to clipboard
+function copyTenantDomain() {
+    if (selectedCustomer) {
+        tenantDomain = selectedCustomer.primaryDomainName;
+        navigator.clipboard.writeText(tenantDomain);
+        document.querySelector('#tenant-domain>p').innerHTML = 'Copied!';
+        setTimeout(function () {
+            document
+                .querySelector('#tenant-domain>p').innerHTML = selectedCustomer.primaryDomainName
+        }, 1000);
+    }
+}
+
 // Check if the File Handler API is supported
 if ('launchQueue' in window) {
     // Handle the file when the PWA is launched with a file
@@ -281,12 +196,17 @@ document
     .addEventListener('input', function () {
         selectedCustomer = getSelectedCustomer(this.value);
         document.getElementById('tenant-id').disabled = false;
-        tenantIdButton = document.querySelector('#tenant-id>p')
+        document.getElementById('tenant-domain').disabled = false;
+        tenantIdButton = document.querySelector('#tenant-id>p');
+        tenantDomainButton = document.querySelector('#tenant-domain>p');
         if (selectedCustomer) {
             tenantIdButton.innerHTML = selectedCustomer.microsoftId;
+            tenantDomainButton.innerHTML = selectedCustomer.primaryDomainName;
         } else {
             document.getElementById('tenant-id').disabled = true;
             tenantIdButton.innerHTML = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+            document.getElementById('tenant-domain').disabled = true;
+            tenantDomainButton.innerHTML = "contoso.com";
         }
     });
 
@@ -387,13 +307,4 @@ function getDragAfterElement(container, y) {
             return closest
         }
     }, { offset: Number.NEGATIVE_INFINITY }).element
-}
-
-// Functions to show and hide the drag-and-drop overlay for importing files
-function showDragOverlay() {
-    dropOverlay.style.display = 'flex';
-}
-
-function hideDragOverlay() {
-    dropOverlay.style.display = 'none';
 }

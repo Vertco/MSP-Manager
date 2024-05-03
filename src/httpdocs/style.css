@@ -21,6 +21,7 @@ a {
 h1 {
     font-size: 6mm;
     margin: 0;
+    user-select: none;
 }
 
 h2 {
@@ -48,6 +49,7 @@ p {
     width: 300px;
     margin: -50px 0px -2px 0px;
     filter: drop-shadow(5px 5px 1rem #00000077);
+    user-select: none;
 }
 
 #content-container {
@@ -63,15 +65,10 @@ p {
     position: relative;
 }
 
-#drop-overlay {
-    z-index: 5;
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+#tenant-container {
+    display: flex;
+    flex-flow: column wrap;
+    gap: 5px;
 }
 
 #buttons-container {
@@ -93,6 +90,7 @@ p {
     justify-content: flex-start;
     width: 350px;
     gap: 5px;
+    user-select: none;
 }
 
 #customer-select {
@@ -127,7 +125,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 #backdrop {
     width: 350px;
-    height: 425px;
+    height: 475px;
     padding: 35px 50px;
     border-radius: 5mm;
     gap: 20px;
@@ -195,9 +193,12 @@ button[is=msp-button]>p,
 }
 
 #footer {
+    max-width: 350px;
     gap: 5px;
     display: flex;
-    flex-direction: column;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
 }
 
 .icon-button {
@@ -210,6 +211,11 @@ button[is=msp-button]>p,
     border-width: 0;
     padding: 5px;
     cursor: pointer;
+    user-select: none;
+}
+
+.half {
+    width: 172.5px;
 }
 
 .icon-button:disabled {
@@ -218,6 +224,10 @@ button[is=msp-button]>p,
 
 .icon-button>svg {
     color: var(--text-color);
+    width: 20px;
+}
+
+.icon-button>img {
     width: 20px;
 }
 
