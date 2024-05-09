@@ -3,7 +3,9 @@ var customers = [];
 var selectedCustomer = '';
 
 // Constants definition
-const defaultOrder = [["admincenter", "entra", "intune", "exchange", "sharepoint", "azure", "teams", "defender", "purview"], []];
+const createDialog = document.getElementById("createDialog");
+const buttonsContainer = document.getElementById('buttons-container');
+const defaultOrder = [["admincenter", "entra", "intune", "exchange", "sharepoint", "azure", "teams", "defender", "purview", "custom"], []];
 const draggables = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.container')
 const dropOverlay = document.getElementById('drop-overlay');
@@ -258,8 +260,76 @@ class mspButton extends HTMLButtonElement {
     }
 }
 
+// Define the customButton custom element extending from HTMLButtonElement
+class customButton extends HTMLButtonElement {
+    constructor() {
+        super();
+        this.style.cursor = 'pointer';
+
+        // Retrieve the initial URL attribute
+        var url = this.getAttribute('url');
+        var selectedCustomer = null;
+
+        // Update the URL whenever a different customer is selected
+        var updateUrl = () => {
+            var previousCustomer = selectedCustomer;
+            selectedCustomer = getSelectedCustomer(document.getElementById('customer-select').value);
+
+            if (selectedCustomer) {
+                if (url) {
+                    var updatedUrl = url.replace(/<microsoftId>/g, encodeURIComponent(selectedCustomer.microsoftId));
+                    updatedUrl = updatedUrl.replace(/<primaryDomainName>/g, encodeURIComponent(selectedCustomer.primaryDomainName));
+                    this.setAttribute('url', updatedUrl);
+                }
+            } else {
+                this.disabled = true;
+            }
+
+            // Enable the element when selectedCustomer changes from empty to not empty
+            if (!previousCustomer && selectedCustomer) {
+                this.disabled = false;
+            }
+        };
+
+        // Handle the click event
+        this.addEventListener('click', function () {
+            updateUrl();
+            if (url) {
+                window.open(this.getAttribute('url'), '_blank');
+            } else {
+                document.querySelector('#custom>#customButtonContent>p').innerHTML = 'Not set!';
+                setTimeout(function () {
+                    document
+                        .querySelector('#custom>#customButtonContent>p').innerHTML = 'Custom'
+                }, 1000);
+            }
+        });
+
+        // Handle dropping element
+        this.addEventListener('dragend', () => {
+            updateUrl();
+        });
+        
+        // Add event listeners to show/ hide edit button
+        this.addEventListener('mouseover', () => {
+            document.getElementById('editButton').style.display = 'flex';
+          });
+          
+          this.addEventListener('mouseout', () => {
+            document.getElementById('editButton').style.display = 'none';
+          });
+
+        // Handle changes in the customer selection
+        document.getElementById('customer-select').addEventListener('input', updateUrl);
+
+        // Disable the element initially
+        this.disabled = true;
+    }
+}
+
 // Define the mspButton element
 customElements.define('msp-button', mspButton, { extends: 'button' });
+customElements.define('custom-button', customButton, { extends: 'button' });
 
 // Function to save the order of the MSP buttons
 function saveOrder() {
@@ -268,6 +338,17 @@ function saveOrder() {
     });
     localStorage.setItem('savedOrder', JSON.stringify(containerIds));
 }
+
+document.getElementById('editButton').addEventListener('click', function () {
+    createDialog.style.display = 'flex';
+});
+
+// Add event listener for escaping dialog
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        createDialog.style.display = 'none';
+    }
+});
 
 // Add event listeners for dragging buttons
 draggables.forEach(draggable => {

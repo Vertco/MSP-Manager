@@ -45,6 +45,20 @@ p {
     font-size: 12pt;
 }
 
+#createDialog {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 1;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background-blend-mode: exclusion;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 #logo {
     width: 300px;
     margin: -50px 0px -2px 0px;
@@ -123,7 +137,7 @@ input[type="search"]::-webkit-search-cancel-button {
     display: none;
 }
 
-#backdrop {
+.panel {
     width: 350px;
     height: 475px;
     padding: 35px 50px;
@@ -133,23 +147,6 @@ input[type="search"]::-webkit-search-cancel-button {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-}
-
-.dropzone {
-    width: 346px;
-    height: 421px;
-    margin-top: 250px;
-    padding: 35px 50px;
-    border-radius: 5mm;
-    gap: 20px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background-blend-mode: exclusion;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    border: dashed var(--accent-color);
 }
 
 .icon {
@@ -171,25 +168,86 @@ button[is=msp-button] {
     padding: 5px;
 }
 
-button[is=msp-button]>img {
+button[is=custom-button] {
+    background-color: var(--button-color);
+    width: 172.5px;
+    height: 40px;
+    border-radius: 5px;
+    border-width: 0;
+    padding: 5px;
+}
+
+button[is=msp-button]>img,
+button[is=custom-button]>div>img {
     height: 25px;
     width: 25px;
 }
 
-button[is=msp-button]:disabled {
+button[is=msp-button]:disabled,
+button[is=custom-button]:disabled {
     opacity: 50%;
 }
 
 button[is=msp-button]:hover:enabled,
+button[is=custom-button]:hover:enabled,
 .icon-button:hover:enabled {
     border-bottom: 2px solid var(--accent-color);
     padding: 5px 5px 3px 5px;
 }
 
 button[is=msp-button]>p,
+button[is=custom-button]>#customButtonContent>p,
 .icon-button>p {
     color: var(--text-color);
     flex-grow: 1;
+}
+
+button[is=custom-button]>#customButtonContent {
+    display: flex;
+    height: 24px;
+    flex-direction: row;
+    align-items: center;
+    flex-grow: 1;
+}
+
+#editButton {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-left: -10px;
+    margin-right: -15px;
+    border: 0;
+    padding: 0;
+    background-color: var(--accent-color);
+    float: right;
+    z-index: 10;
+}
+
+#editButton>svg {
+    width: 12px;
+    height: 12px;
+    color: var(--text-color);
+}
+
+#createButton:hover:enabled {
+    background-color: var(--button-color);
+}
+
+#createButton>div {
+    display:flex;
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+#createButton>div>svg {
+    color: var(--text-color);
+    height: 20px;
+    padding: 0;
 }
 
 #footer {
