@@ -52,12 +52,24 @@ function convertCsvToJson(csvData) {
 
         for (var j = 0; j < headers.length; j++) {
             var propertyName = convertToCamelCase(headers[j]);
-            jsonObject[propertyName] = currentLine[j];
+
+            // Rename the columns as per the requirements
+            if (propertyName === 'customerid') {
+                propertyName = 'microsoftId';
+            } else if (propertyName === 'defaultdomainname') {
+                propertyName = 'primaryDomainName';
+            } else if (propertyName === 'displayname') {
+                propertyName = 'companyName';
+            }
+
+            // Filter the columns so that only microsoftId, companyName and primaryDomainName remain
+            if (['microsoftId', 'companyName', 'primaryDomainName'].includes(propertyName)) {
+                jsonObject[propertyName] = currentLine[j].replace(/^"|"$/g, '').trim();
+            }
         }
 
         jsonArray.push(jsonObject);
     }
-
     return jsonArray;
 }
 
