@@ -3,7 +3,7 @@ var customers = [];
 var selectedCustomer = '';
 
 // Constants definition
-const defaultOrder = [["admincenter", "entra", "intune", "exchange", "sharepoint", "azure", "teams", "defender", "purview"], []];
+const defaultOrder = [["admincenter", "entra", "intune", "exchange", "sharepoint", "azure", "teams", "defender", "purview", "powerPlatform"], []];
 const draggables = document.querySelectorAll('.draggable')
 const containers = document.querySelectorAll('.container')
 const dropOverlay = document.getElementById('drop-overlay');
