@@ -48,8 +48,11 @@ p {
     width: 25%;
     filter: drop-shadow(5px 5px 1rem #00000077);
     user-select: none;
-    float: left;
     margin-right: 20px;
+}
+
+#title {
+    display: flex;
 }
 
 #content-container {
@@ -126,7 +129,7 @@ input[type="search"]::-webkit-search-cancel-button {
 #backdrop {
     width: min-content;
     height: min-content;
-    padding: 2% 3%;
+    padding: 35px 40px;
     border-radius: 5mm;
     gap: 15px;
     display: flex;
