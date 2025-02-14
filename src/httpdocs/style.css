@@ -83,6 +83,13 @@ p {
     border-radius: 5px;
 }
 
+#settings {
+    padding: 0 5px;
+    cursor: pointer;
+    color: var(--input-color);
+    display: flex;
+}
+
 #searchbar {
     display: flex;
     flex-direction: row;
