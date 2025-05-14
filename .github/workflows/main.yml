@@ -17,4 +17,5 @@ jobs:
         remote-host: "ftp.managemsp.nl"
         remote-user: ${{ secrets.FTP_USER }}
         remote-password: ${{ secrets.FTP_PW }}
-        local-path: './src/'
+        local-path: "./src/"
+        sync: "full"
