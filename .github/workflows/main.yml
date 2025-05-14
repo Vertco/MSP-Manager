@@ -11,13 +11,10 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
     - name: 📂 Sync files
-      uses: wlixcc/SFTP-Deploy-Action@v1.2.6
+      uses: wangyucode/sftp-upload-action@v2.0.4
       with:
-        server: ftp.managemsp.nl
+        host: ftp.managemsp.nl
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PW }}
-        local_path: './src/'
-        remote_path: './'
-        sftp_only: true
-        delete_remote_files: true
-        sftpArgs: '-o ConnectTimeout=5'
+        localDir: './src/'
+        remoteDir: '/'
