@@ -16,8 +16,8 @@ jobs:
         server: ftp.managemsp.nl
         username: ${{ secrets.FTP_USER }}
         password: ${{ secrets.FTP_PW }}
-        local_path: "./src/"
-        remote_path: "./"
+        local_path: './src/'
+        remote_path: './'
         sftp_only: true
         delete_remote_files: true
         sftpArgs: '-o ConnectTimeout=5'
