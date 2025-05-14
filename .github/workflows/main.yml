@@ -13,21 +13,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Deploy files via SFTP
-        uses: pressidium/lftp-mirror-action@v1
+      - name: Push to SFTP
+        uses: AbleLincoln/push-to-sftp@v1.0
         with:
-          # SFTP credentials
-          host: ftp.managemsp.nl
-          port: 22
-          user: ${{ secrets.FTP_USER }}
-          pass: ${{ secrets.FTP_PW }}
-          # lftp settings
-          onlyNewer: true
-          settings: 'sftp:auto-confirm=yes'
-          # Mirror command options
-          localDir: '/src'
-          remoteDir: '.'
-          reverse: true
-          ignoreFile: '.lftp_ignore'
-          options: '--verbose'
+            host: ftp.managemsp.nl
+            port: 22
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PW }}
+            sourceDir: ./src/
+            targetDir: ./
