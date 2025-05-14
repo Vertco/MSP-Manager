@@ -37,8 +37,7 @@ body {
 }
 
 h1 {
-    font-size: 24pt;
-    margin-left: auto;
+    font-size: 27pt;
 }
 
 p {
@@ -53,6 +52,7 @@ p {
 
 #title {
     display: flex;
+    justify-content: space-between;
 }
 
 #content-container {
