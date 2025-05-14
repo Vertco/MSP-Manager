@@ -11,10 +11,10 @@ jobs:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
     - name: 📂 Sync files
-      uses: wangyucode/sftp-upload-action@v2.0.4
+      uses: milanmk/actions-file-deployer@master
       with:
-        host: ftp.managemsp.nl
-        username: ${{ secrets.FTP_USER }}
-        password: ${{ secrets.FTP_PW }}
-        localDir: './src/'
-        remoteDir: '/'
+        remote-protocol: "sftp"
+        remote-host: "ftp.managemsp.nl"
+        remote-user: ${{ secrets.FTP_USER }}
+        remote-password: ${{ secrets.FTP_PW }}
+        local-path: './src/'
