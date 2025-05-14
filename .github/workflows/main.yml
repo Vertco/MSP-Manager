@@ -18,4 +18,5 @@ jobs:
         password: ${{ secrets.FTP_PW }}
         local_path: "./src/*"
         remote_path: "./*"
+        sftp_only: true
         sftpArgs: '-o ConnectTimeout=5'
