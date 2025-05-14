@@ -18,4 +18,5 @@ jobs:
         remote-user: ${{ secrets.FTP_USER }}
         remote-password: ${{ secrets.FTP_PW }}
         local-path: "./src/"
+        remote-path: "./"
         sync: "full"
